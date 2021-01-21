@@ -38,3 +38,5 @@ nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.
 nnoremap <leader>p :lua require('telescope.builtin').find_files()<CR>
 nnoremap <F2> :NERDTreeToggle<CR>
 
+autocmd VimEnter * NERDTree
+
