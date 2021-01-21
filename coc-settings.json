@@ -1,0 +1,6 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true,
+  "eslint.alwaysShowStatus": true
+}
