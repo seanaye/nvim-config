@@ -2,8 +2,8 @@ set relativenumber
 set nohlsearch
 set hidden
 set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
+set tabstop=2 softtabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set nu
@@ -29,6 +29,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'preservim/nerdtree'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 colorscheme gruvbox
 
@@ -37,6 +38,17 @@ let mapleader = " "
 nnoremap <leader>f :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>
 nnoremap <leader>p :lua require('telescope.builtin').find_files()<CR>
 nnoremap <F2> :NERDTreeToggle<CR>
+nnoremap <F5> :UndotreeToggle<CR>
 
-autocmd VimEnter * NERDTree
+autocmd StdinReadPre * let g:isReadingFromStdin = 1
+autocmd VimEnter * if !argc() && !exists('g:isReadingFromStdin') | NERDTree | endif
 
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c" },  -- list of language that will be disabled
+  },
+}
+EOF
