@@ -16,6 +16,7 @@ set termguicolors
 set scrolloff=8
 set noshowmode
 set completeopt=menuone,noinsert,noselect
+set foldmethod=indent
 
 call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-fugitive'
