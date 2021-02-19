@@ -27,10 +27,13 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 :Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+
 Plug 'preservim/nerdtree'
 
 Plug 'preservim/nerdcommenter'
 Plug 'jparise/vim-graphql'
+Plug 'SirVer/ultisnips'
 call plug#end()
 colorscheme gruvbox
 
@@ -44,16 +47,41 @@ nnoremap <F5> :UndotreeToggle<CR>
 autocmd StdinReadPre * let g:isReadingFromStdin = 1
 autocmd VimEnter * if !argc() && !exists('g:isReadingFromStdin') | NERDTree | endif
 
-
 lua << EOF
-require'lspconfig'.tsserver.setup{}
-require'lspconfig'.denols.setup{}
-require'lspconfig'.dockerls.setup{}
-require'lspconfig'.gopls.setup{}
-require'lspconfig'.graphql.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.jsonls.setup{}
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.rls.setup{}
+local lspconfig = require'lspconfig'
+lspconfig.tsserver.setup{}
+lspconfig.dockerls.setup{}
+lspconfig.gopls.setup{}
+lspconfig.graphql.setup{}
+lspconfig.html.setup{}
+lspconfig.jsonls.setup{}
+lspconfig.rls.setup{}
+lspconfig.pyright.setup{}
+lspconfig.vls.setup{}
 EOF
+
+let g:UltiSnipsSnippetDirectories=["~/.config/nvim/custom-snippets"]
+
+" Use completion-nvim in every buffer
+autocmd BufEnter * lua require'completion'.on_attach()
+
+" possible value: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
+let g:completion_enable_snippet = 'UltiSnips'
+
+let g:completion_trigger_on_delete = 1
+
+" Recommended LSP Completion settings from 
+" https://github.com/nvim-lua/completion-nvim
+"
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+noremap K :lua vim.lsp.buf.hover()<CR>
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
