@@ -27,14 +27,15 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-:Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 
 Plug 'preservim/nerdtree'
 
 Plug 'preservim/nerdcommenter'
-Plug 'jparise/vim-graphql'
 Plug 'SirVer/ultisnips'
+
+Plug 'sheerun/vim-polyglot'
 call plug#end()
 colorscheme gruvbox
 
@@ -49,7 +50,10 @@ autocmd StdinReadPre * let g:isReadingFromStdin = 1
 autocmd VimEnter * if !argc() && !exists('g:isReadingFromStdin') | NERDTree | endif
 
 lua << EOF
+vim.lsp.set_log_level("debug")
+
 local lspconfig = require'lspconfig'
+lspconfig.svelte.setup{}
 lspconfig.tsserver.setup{}
 lspconfig.dockerls.setup{}
 lspconfig.gopls.setup{}
@@ -58,7 +62,7 @@ lspconfig.html.setup{}
 lspconfig.jsonls.setup{}
 lspconfig.rls.setup{}
 lspconfig.pyright.setup{}
-lspconfig.vls.setup{}
+lspconfig.vuels.setup{}
 EOF
 
 let g:UltiSnipsSnippetDirectories=["~/.config/nvim/custom-snippets"]
